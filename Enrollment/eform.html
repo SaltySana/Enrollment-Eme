@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enrollment Form</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+    }
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +23,7 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       color: white;
       position: fixed;
       left: 0;
@@ -134,7 +137,7 @@
     
     .page-title {
       font-size: 28px;
-      color: #8b1a37;
+      color: var(--primary-color);
       display: flex;
       align-items: center;
     }
@@ -147,7 +150,7 @@
     
     .notification-bell {
       font-size: 20px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .form-container {
@@ -165,7 +168,7 @@
     .form-section-title {
       font-size: 18px;
       font-weight: bold;
-      color: #8b1a37;
+      color: var(--primary-color);
       margin-bottom: 15px;
     }
     
@@ -210,7 +213,7 @@
     
     .payment-title {
       font-size: 22px;
-      color: #8b1a37;
+      color: var(--primary-color);
       margin-bottom: 15px;
     }
     
@@ -241,7 +244,7 @@
     }
     
     .payment-card.selected {
-      border: 2px solid #8b1a37;
+      border: 2px solid var(--primary-color);
       background-color: rgba(139, 26, 55, 0.05);
     }
     
@@ -251,7 +254,7 @@
       border-bottom: 1px solid #eee;
       margin-bottom: 10px;
       font-weight: bold;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .payment-checkbox {
@@ -260,7 +263,7 @@
       left: 15px;
       width: 20px;
       height: 20px;
-      accent-color: #8b1a37;
+      accent-color: var(--primary-color);
       cursor: pointer;
     }
     
@@ -286,7 +289,7 @@
       display: block;
       width: 100%;
       max-width: 200px;
-      background-color: #8b1a37;
+      background-color: var(--primary-color);
       color: white;
       border: none;
       border-radius: 5px;
@@ -299,7 +302,7 @@
     }
     
     .proceed-btn:hover {
-      background-color: #6e1429;
+      background-color: var(--primary-darker);
     }
     
     .error-message {
@@ -415,8 +418,11 @@
       cursor: pointer;
     }
     .modal-buttons .confirm-btn {
-      background-color: #8b1a37;
+      background-color: var(--primary-color);
       color: white;
+    }
+    .modal-buttons .confirm-btn:hover {
+      background-color: var(--primary-darker);
     }
     .modal-buttons .cancel-btn {
       background-color: #ddd;
@@ -524,7 +530,7 @@
     
     <div class="profile">
       <div class="profile-pic">
-        <i class="fas fa-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -789,135 +795,6 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const notificationBell = document.querySelector('.notification-bell');
-        if (notificationBell) {
-        notificationBell.addEventListener('click', function() {
-        alert('No new notifications at this time.');
-        });
-     }
-      const allPaymentCards = document.querySelectorAll('.payment-card');
-      const allCheckboxes = document.querySelectorAll('input[name="payment-option"]');
-
-      
-      allPaymentCards.forEach(card => {
-        card.addEventListener('click', function() {
-          const checkbox = this.querySelector('input[type="checkbox"]');
-          
-          allCheckboxes.forEach(cb => {
-            cb.checked = false;
-          });
-          
-          allPaymentCards.forEach(c => {
-            c.classList.remove('selected');
-          });
-          
-          checkbox.checked = true;
-          this.classList.add('selected');
-        });
-      });
-      
-      document.querySelectorAll('.payment-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('click', function(event) {
-          event.stopPropagation();
-          
-          this.parentElement.click();
-        });
-      });
-    });
-    
-    function showAlert(message, type) {
-      const alertContainer = document.getElementById('alert-container');
-      const alertBox = document.createElement('div');
-      alertBox.className = `alert ${type}`;
-      alertBox.innerHTML = `
-        <span>${message}</span>
-        <button class="close-btn" onclick="this.parentElement.remove()">×</button>
-      `;
-
-      alertContainer.appendChild(alertBox);
-
-      setTimeout(() => {
-        if (alertBox.parentElement) {
-          alertBox.style.animation = 'fadeOut 0.5s ease';
-          alertBox.addEventListener('animationend', () => alertBox.remove());
-        }
-      }, 5000);
-    }
-
-    function showModal() {
-      const modal = document.getElementById('confirmation-modal');
-      modal.style.display = 'flex';
-    }
-
-    function hideModal() {
-      const modal = document.getElementById('confirmation-modal');
-      modal.style.display = 'none';
-    }
-
-    function showLoadingSpinner() {
-      const overlay = document.getElementById('loading-overlay');
-      overlay.style.display = 'flex';
-    }
-
-    document.getElementById('confirm-submit').addEventListener('click', function () {
-      showLoadingSpinner();
-      setTimeout(() => {
-        window.location.href = 'payment.html';
-      }, 750);
-    });
-
-    document.getElementById('cancel-submit').addEventListener('click', function () {
-      showAlert('Form submission canceled by the user.', 'warning');
-      hideModal();
-    });
-
-    document.querySelector('.proceed-btn').addEventListener('click', function() {
-      const requiredFields = [
-        'lastName', 'firstName', 'homeAddress', 'contactNumber',
-        'fathersName', 'fatherOccupation', 'mothersName', 'motherOccupation',
-        'parentAddress', 'previousSchool', 'yearGradeLevel', 'enrollmentDate', 'generalAverage'
-      ];
-      
-      let isValid = true;
-      
-      requiredFields.forEach(field => {
-        const input = document.getElementById(field);
-        const errorElement = document.getElementById(`${field}-error`);
-        
-        if (!input.value.trim()) {
-          input.classList.add('error');
-          if (errorElement) {
-            errorElement.style.display = 'block';
-          }
-          isValid = false;
-        } else {
-          input.classList.remove('error');
-          if (errorElement) {
-            errorElement.style.display = 'none';
-          }
-        }
-      });
-      
-      const paymentOptionSelected = Array.from(document.querySelectorAll('input[name="payment-option"]')).some(cb => cb.checked);
-      
-      if (!paymentOptionSelected) {
-        showAlert('Please select a payment option to proceed.', 'error');
-        isValid = false;
-      }
-
-      if (isValid) {
-        showModal();
-      } else {
-        const firstError = document.querySelector('.form-control.error');
-        if (firstError) {
-          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }
-
-    });
-    
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

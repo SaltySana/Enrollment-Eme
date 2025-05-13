@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schedule</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+    }
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +23,7 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       color: white;
       position: fixed;
       left: 0;
@@ -135,16 +138,16 @@
     
     .page-title {
       font-size: 28px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .notification-bell {
       font-size: 20px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .schedule-container {
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       padding: 20px;
@@ -187,7 +190,7 @@
     }
     
     .class-block {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: var(--primary-color);
       border-radius: 8px;
       padding: 10px;
       height: 100%;
@@ -266,7 +269,7 @@
     
     <div class="profile">
       <div class="profile-pic">
-        <i class="fas fa-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -400,23 +403,6 @@
     </div>
   </div>
 
-  <script>
-    document.querySelectorAll('.nav-item').forEach(function(item) {
-      item.addEventListener('click', function(e) {
-        if (!this.classList.contains('active')) {
-          document.querySelectorAll('.nav-item').forEach(function(navItem) {
-            navItem.classList.remove('active');
-          });
-          this.classList.add('active');
-        }
-      });
-    });
-      const notificationBell = document.querySelector('.notification-bell');
-  if (notificationBell) {
-    notificationBell.addEventListener('click', function() {
-      alert('No new notifications at this time.');
-    });
-  }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ledger</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+    }
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +23,7 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       color: white;
       position: fixed;
       left: 0;
@@ -135,12 +138,12 @@
     
     .page-title {
       font-size: 28px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .notification-bell {
       font-size: 20px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .ledger-container {
@@ -225,7 +228,7 @@
     }
     
     .remaining-text {
-      color: #d9a3a3;
+      color: var(--primary-color);
       margin-right: 20px;
     }
     
@@ -282,7 +285,7 @@
     
     <div class="profile">
       <div class="profile-pic">
-        <i class="fas fa-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -340,13 +343,6 @@
     </div>
   </div>
 
-  <script>
-      const notificationBell = document.querySelector('.notification-bell');
-  if (notificationBell) {
-    notificationBell.addEventListener('click', function() {
-      alert('No new notifications at this time.');
-    });
-  }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

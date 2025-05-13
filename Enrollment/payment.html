@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Page</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+    }
     * {
       margin: 0;
       padding: 0;
@@ -143,9 +146,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #8b1a37;
+      background-color: var(--primary-color);
       color: white;
-      border: 1px solid #8b1a37;
+      border: 1px solid var(--primary-color);
       border-radius: 5px;
       padding: 15px;
       font-size: 16px;
@@ -154,8 +157,8 @@
       transition: all 0.3s ease;
     }
     .payment-btn:hover {
-      background-color: #6e1429;
-      border-color: #6e1429;
+      background-color: var(--primary-darker);
+      border-color: var(--primary-darker);
     }
     .payment-btn i {
       margin-right: 10px;
@@ -232,7 +235,7 @@
     </div>
     <div class="profile">
       <div class="profile-pic">
-        <i class="fas fa-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -263,20 +266,6 @@
       <p>Redirecting...</p>
     </div>
   </div>
-  <script>
-    function showLoadingSpinner() {
-      const overlay = document.getElementById('loading-overlay');
-      overlay.style.display = 'flex';
-    }
-
-    document.querySelectorAll('.payment-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        showLoadingSpinner();
-        setTimeout(() => {
-          window.location.href = 'payment.html';
-        }, 750); 
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

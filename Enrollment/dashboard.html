@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+      --gradient-background: linear-gradient(135deg, var(--primary-color), #5a0f23);
+    }
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +24,7 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       color: white;
       position: fixed;
       left: 0;
@@ -113,6 +117,16 @@
       justify-content: center;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
+
+    .profile-pic i {
+      font-size: 24px;
+      color: #666;
+      transition: color 0.3s ease;
+    }
+
+    .profile-pic:hover i {
+      color: #333;
+    }
     
     .profile-info {
       display: flex;
@@ -143,7 +157,7 @@
     
     .page-title {
       font-size: 28px;
-      color: #8b1a37;
+      color: var(--primary-color);
       display: flex;
       align-items: center;
     }
@@ -156,7 +170,7 @@
     
     .notification-bell {
       font-size: 20px;
-      color: #8b1a37;
+      color: var(--primary-color);
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -184,7 +198,7 @@
     }
     
     .announcement-slide {
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: linear-gradient(135deg, var(--primary-color), #5a0f23);
       width: 100%;
       height: 100%;
       display: flex;
@@ -249,7 +263,7 @@
     .card {
       flex: 1;
       height: 120px;
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: linear-gradient(135deg, var(--primary-color), #5a0f23);
       border-radius: 10px;
       padding: 20px;
       color: white;
@@ -306,7 +320,7 @@
       text-align: center;
       margin-bottom: 15px;
       font-weight: bold;
-      color: #8b1a37;
+      color: var(--primary-color);
       font-size: 18px;
     }
     
@@ -318,7 +332,7 @@
     .calendar th {
       padding: 10px;
       font-size: 14px;
-      color: #8b1a37;
+      color: var(--primary-color);
     }
     
     .calendar td {
@@ -328,7 +342,7 @@
     }
     
     .event-day {
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: linear-gradient(135deg, var(--primary-color), #5a0f23);
       color: white;
       border-radius: 50%;
       width: 28px;
@@ -352,12 +366,12 @@
       text-align: center;
       margin-bottom: 15px;
       font-weight: bold;
-      color: #8b1a37;
+      color: var(--primary-color);
       font-size: 18px;
     }
     
     .event-item {
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: var(--gradient-background);
       color: white;
       padding: 12px 15px;
       margin-bottom: 10px;
@@ -465,7 +479,7 @@
     
     <div class="profile">
       <div class="profile-pic">
-        <i class="fas fa-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -592,38 +606,6 @@
     </div>
   </div>
 
-  <script>
-    let currentSlide = 0;
-    const indicators = document.querySelectorAll('.indicator');
-    const notificationBell = document.querySelector('.notification-bell');
-    if (notificationBell) {
-    notificationBell.addEventListener('click', function() {
-      alert('No new notifications at this time.');
-    });
-    }
-    
-    indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        currentSlide = index;
-        updateCarousel();
-      });
-    });
-    
-    function updateCarousel() {
-      indicators.forEach((indicator, index) => {
-        if (index === currentSlide) {
-          indicator.classList.add('active');
-        } else {
-          indicator.classList.remove('active');
-        }
-      });
-    }
-    
-    setInterval(() => {
-      currentSlide = (currentSlide + 1) % indicators.length;
-      updateCarousel();
-    }, 1000);
-
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

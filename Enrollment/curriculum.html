@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curriculum</title>
   <style>
+    :root {
+      --primary-color: #8b1a37; /* Default color */
+      --gradient-background: linear-gradient(to right, var(--primary-color), #5a0f23);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -20,7 +25,7 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      background: linear-gradient(to bottom, var(--primary-color), #5a0f23);
       color: white;
       position: fixed;
       left: 0;
@@ -146,14 +151,14 @@
     
     .page-title {
       font-size: 28px;
-      color: #8b1a37;
+      color: var(--primary-color);
       display: flex;
       align-items: center;
     }
     
     .notification-bell {
       font-size: 20px;
-      color: #8b1a37;
+      color: var(--primary-color);
       cursor: pointer;
       transition: transform 0.3s ease;
     }
@@ -173,7 +178,7 @@
     .curriculum-tabs {
       display: flex;
       border-bottom: 1px solid #eee;
-      background: linear-gradient(to right, #8b1a37, #5a0f23);
+      background: var(--gradient-background);
     }
     
     .curriculum-tab {
@@ -189,6 +194,7 @@
     
     .curriculum-tab.active {
       background-color: rgba(255, 255, 255, 0.15);
+      border-bottom: 3px solid var(--primary-color);
     }
     
     .curriculum-tab.active::after {
@@ -214,7 +220,7 @@
     }
     
     .level-card {
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: linear-gradient(135deg, var(--primary-color), #5a0f23);
       color: white;
       border-radius: 10px;
       margin-bottom: 20px;
@@ -307,7 +313,7 @@
     }
     
     .curriculum-info h3 {
-      color: #8b1a37;
+      color: var(--primary-color);
       margin-bottom: 10px;
     }
     
@@ -337,24 +343,27 @@
     }
     
     .primary-button {
-      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      background: var(--gradient-background);
       color: white;
       border: none;
     }
     
     .primary-button:hover {
+      background: var(--primary-darker);
       transform: translateY(-3px);
-      box-shadow: 0 4px 15px rgba(139, 26, 55, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
     
     .secondary-button {
       background-color: white;
-      color: #8b1a37;
-      border: 1px solid #8b1a37;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
     }
     
     .secondary-button:hover {
-      background-color: #f9f9f9;
+      background-color: var(--bg-color);
+      color: var(--primary-darker);
+      border-color: var(--primary-darker);
     }
     
     .action-button i {
@@ -417,7 +426,7 @@
     
     <div class="profile">
       <div class="profile-pic">
-      <i class="fa-light fa-circle-user"></i>
+        <i class="fa-solid fa-circle-user" style="font-size: 52px; color: #666;"></i>
       </div>
       <div class="profile-info">
         <div class="profile-name">Alexander Calizar</div>
@@ -1080,97 +1089,6 @@
   </div>
 </div>
 
-  <script>
-document.addEventListener('DOMContentLoaded', function() {
-
-  const tabButtons = document.querySelectorAll('.curriculum-tab');
-  const tabSections = document.querySelectorAll('.curriculum-section');
-  
-
-  const jhsSection = document.getElementById('jhs');
-  const shsSection = document.getElementById('shs');
-  
-  if (shsSection && jhsSection.contains(shsSection)) {
-
-    const curriculumContent = document.querySelector('.curriculum-content');
-    curriculumContent.appendChild(shsSection);
-    console.log('Fixed SHS section structure');
-  }
-  
-
-  if (shsSection) {
-    if (!document.querySelector('.curriculum-tab[data-tab="shs"]').classList.contains('active')) {
-      shsSection.classList.remove('active');
-    }
-  } else {
-    console.error('SHS section not found in the document');
-  }
-  
-
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-
-      tabButtons.forEach(btn => btn.classList.remove('active'));
- 
-      this.classList.add('active');
- 
-
-      tabSections.forEach(section => {
-        if (section) {
-          section.classList.remove('active');
-        }
-      });
-      
-
-      const tabId = this.getAttribute('data-tab');
-      const targetSection = document.getElementById(tabId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-      } else {
-        console.error(`Section with ID '${tabId}' not found`);
-      }
-    });
-  });
-  
-
-  const levelHeaders = document.querySelectorAll('.level-header');
-  
-  levelHeaders.forEach(header => {
-    header.addEventListener('click', function() {
-
-      const toggleIcon = this.querySelector('.level-toggle');
-      const detailsSection = this.nextElementSibling;
-      
-
-      toggleIcon.classList.toggle('open');
-      detailsSection.classList.toggle('open');
-    });
-  });
-  
-
-  const downloadBtn = document.querySelector('.primary-button');
-  if (downloadBtn) {
-    downloadBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      alert('Curriculum guide download started.');
-
-    });
-  }
-  
-  const printBtn = document.querySelector('.secondary-button');
-  if (printBtn) {
-    printBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      window.print();
-    });
-  }
-  
-
-  const notificationBell = document.querySelector('.notification-bell');
-  if (notificationBell) {
-    notificationBell.addEventListener('click', function() {
-      alert('No new notifications at this time.');
-    });
-  }
-});
-  </script>
+  <script src="script.js"></script>
+</body>
+</html>
