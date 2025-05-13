@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      display: flex;
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .logo img {
+      width: 50px;
+      height: 50px;
+    }
+    
+    
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid white;
+    }
+    
+    .nav-item i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .profile {
+      margin-top: auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-name {
+      font-weight: bold;
+    }
+    
+    .profile-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .page-title {
+      font-size: 28px;
+      color: #8b1a37;
+      display: flex;
+      align-items: center;
+    }
+    
+    .notification-bell {
+      font-size: 20px;
+      color: #8b1a37;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .notification-bell:hover {
+      transform: scale(1.1);
+    }
+    
+    .curriculum-nav {
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .curriculum-tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      background: linear-gradient(to right, #8b1a37, #5a0f23);
+    }
+    
+    .curriculum-tab {
+      padding: 15px 20px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      position: relative;
+      text-align: center;
+      flex: 1;
+    }
+    
+    .curriculum-tab.active {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .curriculum-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background-color: white;
+    }
+    
+    .curriculum-content {
+      padding: 20px;
+    }
+    
+    .curriculum-section {
+      display: none;
+    }
+    
+    .curriculum-section.active {
+      display: block;
+    }
+    
+    .level-card {
+      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      color: white;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .level-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .level-header {
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .level-title {
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    
+    .level-title i {
+      margin-right: 10px;
+    }
+    
+    .level-toggle {
+      font-size: 20px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .level-toggle.open {
+      transform: rotate(180deg);
+    }
+    
+    .level-details {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .level-details.open {
+      padding: 20px;
+      max-height: 500px;
+    }
+    
+    .subject-list {
+      list-style-type: none;
+    }
+    
+    .subject-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+    }
+    
+    .subject-item:last-child {
+      border-bottom: none;
+    }
+    
+    .subject-item i {
+      margin-right: 10px;
+      font-size: 14px;
+    }
+    
+    .subject-hours {
+      margin-left: auto;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .curriculum-info {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .curriculum-info h3 {
+      color: #8b1a37;
+      margin-bottom: 10px;
+    }
+    
+    .curriculum-info p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .action-button {
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+    
+    .primary-button {
+      background: linear-gradient(135deg, #8b1a37, #5a0f23);
+      color: white;
+      border: none;
+    }
+    
+    .primary-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(139, 26, 55, 0.3);
+    }
+    
+    .secondary-button {
+      background-color: white;
+      color: #8b1a37;
+      border: 1px solid #8b1a37;
+    }
+    
+    .secondary-button:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .action-button i {
+      margin-right: 8px;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 70px;
+      }
+      
+      .brand-name, .nav-item span, .profile-info {
+        display: none;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+      }
+      
+      .curriculum-tabs {
+        flex-wrap: wrap;
+      }
+      
+      .curriculum-tab {
+        flex: 0 0 50%;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="MSEUFCI Logo">
+      </div>
+      <div class="brand-name">MSEUFCI</div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="ledger.html" class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="schedule.html" class="nav-item">
+        <i class="fas fa-calendar"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </div>
+    
+    <div class="profile">
+      <div class="profile-pic">
+      <i class="fa-light fa-circle-user"></i>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Alexander Calizar</div>
+        <div class="profile-id">ID A22-1711</div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">
+        Curriculum
+      </div>
+      <div class="notification-bell">
+        <i class="far fa-bell"></i>
+      </div>
+    </div>
+    
+
+    <div class="curriculum-info">
+      <h3>Academic Programs Overview</h3>
+      <p>MSEUFCI offers comprehensive educational programs from Pre-Elementary to Senior High School, following the Philippine K-12 curriculum with additional specialized tracks. Our curriculum is designed to nurture holistic development, critical thinking, and prepare students for higher education and future careers.</p>
+      <p>Select an educational level below to view detailed curriculum information including subjects, learning outcomes, and requirements.</p>
+      
+      <div class="action-buttons">
+        <a href="#" class="action-button primary-button">
+          <i class="fas fa-download"></i> Download Curriculum Guide
+        </a>
+        <a href="#" class="action-button secondary-button">
+          <i class="fas fa-print"></i> Print Information
+        </a>
+      </div>
+    </div>
+    
+
+    <div class="curriculum-nav">
+      <div class="curriculum-tabs">
+        <div class="curriculum-tab active" data-tab="pre-elem">Pre-Elementary</div>
+        <div class="curriculum-tab" data-tab="elem">Elementary</div>
+        <div class="curriculum-tab" data-tab="jhs">Junior High</div>
+        <div class="curriculum-tab" data-tab="shs">Senior High</div>
+      </div>
+      
+      <div class="curriculum-content">
+
+        <div class="curriculum-section active" id="pre-elem">
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-baby"></i> Nursery
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Early Language Development
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Sensory Play and Discovery
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Motor Skills Development
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Social Interaction
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Creative Arts
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-child"></i> Kindergarten 1
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Literacy Foundations
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Numeracy Basics
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Environmental Awareness
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Physical Education
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Arts and Music
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-child"></i> Kindergarten 2
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Reading Readiness
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics Readiness
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science Discovery
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Social Studies Foundations
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Physical Education
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Creative Expression
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="curriculum-section" id="elem">
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-school"></i> Grades 1-3 (Primary)
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English Language Arts
+                  <span class="subject-hours">5 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">5 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH (Music, Arts, PE, Health)
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mother Tongue
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-school"></i> Grades 4-6 (Intermediate)
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English Language Arts
+                  <span class="subject-hours">5 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">5 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH (Music, Arts, PE, Health)
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> EPP/TLE (Edukasyong Pantahanan at Pangkabuhayan)
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="curriculum-section" id="jhs">
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-user-graduate"></i> Grade 7
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Technology and Livelihood Education
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-user-graduate"></i> Grade 8
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Technology and Livelihood Education
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-user-graduate"></i> Grade 9
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Technology and Livelihood Education
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="level-card">
+            <div class="level-header">
+              <div class="level-title">
+                <i class="fas fa-user-graduate"></i> Grade 10
+              </div>
+              <div class="level-toggle">
+                <i class="fas fa-chevron-down"></i>
+              </div>
+            </div>
+            <div class="level-details">
+              <ul class="subject-list">
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> English
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Filipino
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Mathematics
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Science
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Araling Panlipunan
+                  <span class="subject-hours">3 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> MAPEH
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Edukasyon sa Pagpapakatao
+                  <span class="subject-hours">2 hrs/week</span>
+                </li>
+                <li class="subject-item">
+                  <i class="fas fa-circle"></i> Technology and Livelihood Education
+                  <span class="subject-hours">4 hrs/week</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+<div class="curriculum-section" id="shs">
+  <div class="level-card">
+    <div class="level-header">
+      <div class="level-title">
+        <i class="fas fa-graduation-cap"></i> Academic Track
+      </div>
+      <div class="level-toggle">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div class="level-details">
+      <ul class="subject-list">
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Oral Communication
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Reading and Writing
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Komunikasyon at Pananaliksik
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> General Mathematics
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Earth and Life Science
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Understanding Culture, Society and Politics
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Physical Education and Health
+          <span class="subject-hours">2 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Personal Development
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="level-card">
+    <div class="level-header">
+      <div class="level-title">
+        <i class="fas fa-graduation-cap"></i> STEM Strand
+      </div>
+      <div class="level-toggle">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div class="level-details">
+      <ul class="subject-list">
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Pre-Calculus
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Basic Calculus
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> General Chemistry
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> General Physics
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> General Biology
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Research in Daily Life 1
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Research in Daily Life 2
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="level-card">
+    <div class="level-header">
+      <div class="level-title">
+        <i class="fas fa-graduation-cap"></i> ABM Strand
+      </div>
+      <div class="level-toggle">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div class="level-details">
+      <ul class="subject-list">
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Business Mathematics
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Fundamentals of Accountancy
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Business Finance
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Organization and Management
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Principles of Marketing
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Business Ethics and Social Responsibility
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Business Economics
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="level-card">
+    <div class="level-header">
+      <div class="level-title">
+        <i class="fas fa-graduation-cap"></i> HUMSS Strand
+      </div>
+      <div class="level-toggle">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div class="level-details">
+      <ul class="subject-list">
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Introduction to World Religions and Belief Systems
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Creative Writing
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Philippine Politics and Governance
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Disciplines and Ideas in the Social Sciences
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Disciplines and Ideas in the Applied Social Sciences
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Community Engagement and Service Learning
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Trends, Networks, and Critical Thinking
+          <span class="subject-hours">3 hrs/week</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="level-card">
+    <div class="level-header">
+      <div class="level-title">
+        <i class="fas fa-graduation-cap"></i> Technical-Vocational Track
+      </div>
+      <div class="level-toggle">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </div>
+    <div class="level-details">
+      <ul class="subject-list">
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Computer Systems Servicing
+          <span class="subject-hours">6 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Programming (Java/Python)
+          <span class="subject-hours">5 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Animation
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Electronics Technology
+          <span class="subject-hours">5 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Electrical Installation and Maintenance
+          <span class="subject-hours">5 hrs/week</span>
+        </li>
+        <li class="subject-item">
+          <i class="fas fa-circle"></i> Work Immersion/Research/Career Advocacy
+          <span class="subject-hours">4 hrs/week</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  const tabButtons = document.querySelectorAll('.curriculum-tab');
+  const tabSections = document.querySelectorAll('.curriculum-section');
+  
+
+  const jhsSection = document.getElementById('jhs');
+  const shsSection = document.getElementById('shs');
+  
+  if (shsSection && jhsSection.contains(shsSection)) {
+
+    const curriculumContent = document.querySelector('.curriculum-content');
+    curriculumContent.appendChild(shsSection);
+    console.log('Fixed SHS section structure');
+  }
+  
+
+  if (shsSection) {
+    if (!document.querySelector('.curriculum-tab[data-tab="shs"]').classList.contains('active')) {
+      shsSection.classList.remove('active');
+    }
+  } else {
+    console.error('SHS section not found in the document');
+  }
+  
+
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+ 
+      this.classList.add('active');
+ 
+
+      tabSections.forEach(section => {
+        if (section) {
+          section.classList.remove('active');
+        }
+      });
+      
+
+      const tabId = this.getAttribute('data-tab');
+      const targetSection = document.getElementById(tabId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      } else {
+        console.error(`Section with ID '${tabId}' not found`);
+      }
+    });
+  });
+  
+
+  const levelHeaders = document.querySelectorAll('.level-header');
+  
+  levelHeaders.forEach(header => {
+    header.addEventListener('click', function() {
+
+      const toggleIcon = this.querySelector('.level-toggle');
+      const detailsSection = this.nextElementSibling;
+      
+
+      toggleIcon.classList.toggle('open');
+      detailsSection.classList.toggle('open');
+    });
+  });
+  
+
+  const downloadBtn = document.querySelector('.primary-button');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      alert('Curriculum guide download started.');
+
+    });
+  }
+  
+  const printBtn = document.querySelector('.secondary-button');
+  if (printBtn) {
+    printBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.print();
+    });
+  }
+  
+
+  const notificationBell = document.querySelector('.notification-bell');
+  if (notificationBell) {
+    notificationBell.addEventListener('click', function() {
+      alert('No new notifications at this time.');
+    });
+  }
+});
+  </script>

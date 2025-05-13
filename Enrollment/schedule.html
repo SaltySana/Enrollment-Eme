@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schedule</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      display: flex;
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .logo img {
+      width: 50px;
+      height: 50px;
+    }
+    
+    
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid white;
+    }
+    
+    .nav-item i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .profile {
+      margin-top: auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-name {
+      font-weight: bold;
+    }
+    
+    .profile-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .page-title {
+      font-size: 28px;
+      color: #8b1a37;
+    }
+    
+    .notification-bell {
+      font-size: 20px;
+      color: #8b1a37;
+    }
+    
+    .schedule-container {
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      min-height: 80vh;
+      color: white;
+    }
+    
+    .schedule-header {
+      display: grid;
+      grid-template-columns: 70px repeat(5, 1fr);
+      margin-bottom: 10px;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    
+    .schedule-header .day {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .schedule-body {
+      display: grid;
+      grid-template-columns: 70px repeat(5, 1fr);
+    }
+    
+    .time-slot {
+      padding: 10px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    
+    .schedule-cell {
+      padding: 15px 5px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      position: relative;
+    }
+    
+    .class-block {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      margin: 5px;
+    }
+    
+    .empty-cell {
+      height: 60px;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 70px;
+      }
+      
+      .brand-name, .nav-item span, .profile-info {
+        display: none;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+      }
+      
+      .schedule-header {
+        grid-template-columns: 40px repeat(5, 1fr);
+      }
+      
+      .schedule-body {
+        grid-template-columns: 40px repeat(5, 1fr);
+      }
+      
+      .day, .class-block {
+        font-size: 14px;
+      }
+      
+      .time-slot {
+        font-size: 12px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="MSEUFCI Logo">
+      </div>
+      <div class="brand-name">MSEUFCI</div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="ledger.html" class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="schedule.html" class="nav-item active">
+        <i class="fas fa-calendar"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </div>
+    
+    <div class="profile">
+      <div class="profile-pic">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Alexander Calizar</div>
+        <div class="profile-id">ID A22-1711</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">Schedule</div>
+      <div class="notification-bell">
+        <i class="far fa-bell"></i>
+      </div>
+    </div>
+    
+    <div class="schedule-container">
+      <div class="schedule-header">
+        <div></div>
+        <div class="day">Monday</div>
+        <div class="day">Tuesday</div>
+        <div class="day">Wednesday</div>
+        <div class="day">Thursday</div>
+        <div class="day">Friday</div>
+      </div>
+      
+      <div class="schedule-body">
+        <div class="time-slot">7 AM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">8 AM</div>
+        <div class="schedule-cell">
+          <div class="class-block">English</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">English</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">English</div>
+        </div>
+        
+        <div class="time-slot">9 AM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Social Studies</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Social Studies</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">10 AM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">11 AM</div>
+        <div class="schedule-cell">
+          <div class="class-block">Math</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Math</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Math</div>
+        </div>
+        
+        <div class="time-slot">12 PM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">1 PM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">2 PM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Filipino</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Filipino</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">3 PM</div>
+        <div class="schedule-cell">
+          <div class="class-block">Science</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Science</div>
+        </div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell">
+          <div class="class-block">Science</div>
+        </div>
+        
+        <div class="time-slot">4 PM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        
+        <div class="time-slot">5 PM</div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+        <div class="schedule-cell empty-cell"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        if (!this.classList.contains('active')) {
+          document.querySelectorAll('.nav-item').forEach(function(navItem) {
+            navItem.classList.remove('active');
+          });
+          this.classList.add('active');
+        }
+      });
+    });
+      const notificationBell = document.querySelector('.notification-bell');
+  if (notificationBell) {
+    notificationBell.addEventListener('click', function() {
+      alert('No new notifications at this time.');
+    });
+  }
+  </script>
+</body>
+</html>

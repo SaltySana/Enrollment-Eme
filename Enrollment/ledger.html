@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ledger</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      display: flex;
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .logo img {
+      width: 50px;
+      height: 50px;
+    }
+    
+    
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid white;
+    }
+    
+    .nav-item i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .profile {
+      margin-top: auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-name {
+      font-weight: bold;
+    }
+    
+    .profile-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .page-title {
+      font-size: 28px;
+      color: #8b1a37;
+    }
+    
+    .notification-bell {
+      font-size: 20px;
+      color: #8b1a37;
+    }
+    
+    .ledger-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      min-height: 80vh;
+    }
+    
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .ledger-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .transaction-header {
+      flex: 1;
+    }
+    
+    .date-header {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .balance-header {
+      flex: 1;
+      text-align: right;
+    }
+    
+    .ledger-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .transaction-id {
+      flex: 1;
+      color: #333;
+    }
+    
+    .transaction-date {
+      flex: 1;
+      text-align: center;
+      color: #333;
+    }
+    
+    .transaction-balance {
+      flex: 1;
+      text-align: right;
+      font-weight: bold;
+    }
+    
+    .transaction-change {
+      flex: 1;
+      text-align: right;
+      color: #d32f2f;
+      font-size: 14px;
+    }
+    
+    .transaction-amount-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    
+    .final-balance {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      align-items: center;
+    }
+    
+    .remaining-text {
+      color: #d9a3a3;
+      margin-right: 20px;
+    }
+    
+    .remaining-amount {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 70px;
+      }
+      
+      .brand-name, .nav-item span, .profile-info {
+        display: none;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="MSEUFCI Logo">
+      </div>
+      <div class="brand-name">MSEUFCI</div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="ledger.html" class="nav-item active">
+        <i class="fas fa-book"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="schedule.html" class="nav-item">
+        <i class="fas fa-calendar"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </div>
+    
+    <div class="profile">
+      <div class="profile-pic">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Alexander Calizar</div>
+        <div class="profile-id">ID A22-1711</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">Ledger</div>
+      <div class="notification-bell">
+        <i class="far fa-bell"></i>
+      </div>
+    </div>
+    
+    <div class="ledger-container">
+      <div class="ledger-header">
+        <div class="transaction-header">Transaction ID</div>
+        <div class="date-header">Date</div>
+        <div class="balance-header">Balance</div>
+      </div>
+      
+      <div class="ledger-row">
+        <div class="transaction-id">471117</div>
+        <div class="transaction-date">01/20/2025</div>
+        <div class="transaction-amount-container">
+          <div class="transaction-balance">24,229.63</div>
+          <div class="transaction-change">-5996.36</div>
+        </div>
+      </div>
+      
+      <div class="ledger-row">
+        <div class="transaction-id">036921</div>
+        <div class="transaction-date">02/21/2025</div>
+        <div class="transaction-amount-container">
+          <div class="transaction-balance">18,233.27</div>
+          <div class="transaction-change">-2000.00</div>
+        </div>
+      </div>
+      
+      <div class="ledger-row">
+        <div class="transaction-id">231832</div>
+        <div class="transaction-date">03/16/2025</div>
+        <div class="transaction-amount-container">
+          <div class="transaction-balance">16,233.27</div>
+          <div class="transaction-change">-2000.00</div>
+        </div>
+      </div>
+      
+      <div class="final-balance">
+        <div class="remaining-text">Remaining Balance</div>
+        <div class="remaining-amount">14,233.27</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      const notificationBell = document.querySelector('.notification-bell');
+  if (notificationBell) {
+    notificationBell.addEventListener('click', function() {
+      alert('No new notifications at this time.');
+    });
+  }
+  </script>
+</body>
+</html>

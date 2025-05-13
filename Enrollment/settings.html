@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      display: flex;
+      background-color: #f5f5f5;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .logo img {
+      width: 50px;
+      height: 50px;
+    }
+    
+    
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+    
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-left: 4px solid white;
+    }
+    
+    .nav-item i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    .profile {
+      margin-top: auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .profile-name {
+      font-weight: bold;
+    }
+    
+    .profile-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 20px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .page-title {
+      font-size: 28px;
+      color: #8b1a37;
+      display: flex;
+      align-items: center;
+    }
+    
+    .notification-bell {
+      font-size: 20px;
+      color: #8b1a37;
+    }
+    
+    .settings-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .settings-menu {
+      display: flex;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .settings-tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .settings-tab.active {
+      color: #8b1a37;
+      border-bottom: 2px solid #8b1a37;
+    }
+    
+    .settings-content {
+      display: none;
+    }
+    
+    .settings-content.active {
+      display: block;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: #8b1a37;
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      background-color: #8b1a37;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .btn:hover {
+      background-color: #a01e3f;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #8b1a37;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    .notification-setting {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .color-option {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    
+    .color-option.active {
+      border-color: #333;
+    }
+    
+    .color-maroon {
+      background-color: #8b1a37;
+    }
+    
+    .color-blue {
+      background-color: #1a3d8b;
+    }
+    
+    .color-green {
+      background-color: #1a8b4f;
+    }
+    
+    .color-purple {
+      background-color: #4f1a8b;
+    }
+    
+    @media (max-width: 992px) {
+      .sidebar {
+        width: 70px;
+      }
+      
+      .brand-name, .nav-item span, .profile-info {
+        display: none;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="MSEUFCI Logo">
+      </div>
+      <div class="brand-name">MSEUFCI</div>
+    </div>
+    
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="ledger.html" class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="schedule.html" class="nav-item">
+        <i class="fas fa-calendar"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="settings.html" class="nav-item active">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </div>
+    
+    <div class="profile">
+      <div class="profile-pic">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Alexander Calizar</div>
+        <div class="profile-id">ID A22-1711</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">
+        Settings
+      </div>
+      <div class="notification-bell">
+        <i class="far fa-bell"></i>
+      </div>
+    </div>
+    
+    <div class="settings-container">
+      <div class="settings-menu">
+        <div class="settings-tab active" data-tab="profile">Profile</div>
+        <div class="settings-tab" data-tab="account">Account</div>
+        <div class="settings-tab" data-tab="notifications">Notifications</div>
+        <div class="settings-tab" data-tab="appearance">Appearance</div>
+        <div class="settings-tab" data-tab="security">Security</div>
+      </div>
+      
+      <div class="settings-content active" id="profile-settings">
+        <h3>Profile Information</h3>
+        <p>Update your personal information and profile picture.</p>
+        <br>
+        
+        <div class="form-group">
+          <label for="profile-picture">Profile Picture</label>
+          <input type="file" id="profile-picture" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" class="form-control" value="Alexander Calizar">
+        </div>
+        
+        <div class="form-group">
+          <label for="student-id">Student ID</label>
+          <input type="text" id="student-id" class="form-control" value="A22-1711" disabled>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" value="alexander.calizar@gmail.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" class="form-control" value="09123456789">
+        </div>
+        
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" class="form-control" rows="3">Sa puso ko</textarea>
+        </div>
+        
+        <button class="btn">Save Changes</button>
+      </div>
+      
+      <div class="settings-content" id="account-settings">
+        <h3>Account Settings</h3>
+        <p>Manage your account preferences and information.</p>
+        <br>
+        
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" class="form-control" value="alexander.c">
+        </div>
+        
+        <div class="form-group">
+          <label for="language">Preferred Language</label>
+          <select id="language" class="form-control">
+            <option value="en" selected>English</option>
+            <option value="tl">Filipino</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="timezone">Timezone</label>
+          <select id="timezone" class="form-control">
+            <option value="GMT+8" selected>Philippines (GMT+8)</option>
+            <option value="GMT+0">Greenwich Mean Time (GMT+0)</option>
+            <option value="GMT-5">Eastern Time (GMT-5)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="date-format">Date Format</label>
+          <select id="date-format" class="form-control">
+            <option value="mm/dd/yyyy" selected>MM/DD/YYYY</option>
+            <option value="dd/mm/yyyy">DD/MM/YYYY</option>
+            <option value="yyyy-mm-dd">YYYY-MM-DD</option>
+          </select>
+        </div>
+        
+        <button class="btn">Save Changes</button>
+      </div>
+      
+      <div class="settings-content" id="notifications-settings">
+        <h3>Notification Settings</h3>
+        <p>Customize how you receive notifications from the system.</p>
+        <br>
+        
+        <div class="notification-setting">
+          <span>Email Notifications</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>SMS Notifications</span>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>Browser Notifications</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <h4 style="margin-top: 20px;">Notification Types</h4>
+        
+        <div class="notification-setting">
+          <span>Announcements</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>Payment Reminders</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>Schedule Changes</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>Grade Updates</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <button class="btn">Save Changes</button>
+      </div>
+      
+      <div class="settings-content" id="appearance-settings">
+        <h3>Appearance Settings</h3>
+        <p>Customize the look and feel of your dashboard.</p>
+        <br>
+        
+        <div class="form-group">
+          <label>Theme Mode</label>
+          <div style="margin-top: 10px;">
+            <label style="font-weight: normal;">
+              <input type="radio" name="theme" value="light" checked> Light Mode
+            </label>
+            <label style="font-weight: normal; margin-left: 20px;">
+              <input type="radio" name="theme" value="dark"> Dark Mode
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Primary Color</label>
+          <div style="margin-top: 10px;">
+            <span class="color-option color-maroon active"></span>
+            <span class="color-option color-blue"></span>
+            <span class="color-option color-green"></span>
+            <span class="color-option color-purple"></span>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="font-size">Font Size</label>
+          <select id="font-size" class="form-control">
+            <option value="small">Small</option>
+            <option value="medium" selected>Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+        
+        <button class="btn">Save Changes</button>
+      </div>
+      
+      <div class="settings-content" id="security-settings">
+        <h3>Security Settings</h3>
+        <p>Manage your account security and privacy.</p>
+        <br>
+        
+        <div class="form-group">
+          <label for="current-password">Current Password</label>
+          <input type="password" id="current-password" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <input type="password" id="new-password" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password">Confirm New Password</label>
+          <input type="password" id="confirm-password" class="form-control">
+        </div>
+        
+        <div class="notification-setting" style="margin-top: 20px;">
+          <span>Two-Factor Authentication</span>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="notification-setting">
+          <span>Login Notifications</span>
+          <label class="toggle-switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <button class="btn">Update Password</button>
+        
+        <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
+        
+        <h4>Sessions</h4>
+        <p>Manage your active sessions and sign out from other devices.</p>
+        <br>
+        
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <strong>Current Session</strong>
+              <div>Chrome on Windows - Manila, Philippines</div>
+              <div style="font-size: 12px; color: #666;">IP: 203.177.123.45 • Last Active: Just now</div>
+            </div>
+            <div>
+              <span style="background-color: #e6f7e6; color: #2e7d32; padding: 3px 8px; border-radius: 10px; font-size: 12px;">Current</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between;">
+            <div>
+              <strong>Mobile App</strong>
+              <div>iPhone App - Manila, Philippines</div>
+              <div style="font-size: 12px; color: #666;">IP: 123.45.67.89 • Last Active: 2 hours ago</div>
+            </div>
+            <div>
+              <button style="background-color: #f5f5f5; color: #333; border: 1px solid #ddd; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-size: 12px;">Sign Out</button>
+            </div>
+          </div>
+        </div>
+        
+        <button class="btn" style="background-color: #d32f2f;">Sign Out From All Devices</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.settings-tab');
+    const contents = document.querySelectorAll('.settings-content');
+      const notificationBell = document.querySelector('.notification-bell');
+  if (notificationBell) {
+    notificationBell.addEventListener('click', function() {
+      alert('No new notifications at this time.');
+    });
+  }
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        document.getElementById(`${target}-settings`).classList.add('active');
+      });
+    });
+    
+    const colorOptions = document.querySelectorAll('.color-option');
+    
+    colorOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        colorOptions.forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+      });
+    });
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      display: flex;
+      background-color: #f5f5f5;
+    }
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: linear-gradient(to bottom, #8b1a37, #5a0f23);
+      color: white;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      padding: 0 20px 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+    .logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .logo img {
+      width: 50px;
+      height: 50px;
+    }
+    .brand-name {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .nav-item.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .nav-item i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    .profile {
+      margin-top: auto;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      background-color: white;
+      border-radius: 50%;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .profile-name {
+      font-weight: bold;
+    }
+    .profile-id {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    .main-content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 20px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .page-title {
+      font-size: 28px;
+      color: #8b1a37;
+    }
+    .payment-container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+    }
+    .payment-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #8b1a37;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .payment-options {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .payment-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #8b1a37;
+      color: white;
+      border: 1px solid #8b1a37;
+      border-radius: 5px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .payment-btn:hover {
+      background-color: #6e1429;
+      border-color: #6e1429;
+    }
+    .payment-btn i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .loading-container {
+      text-align: center;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top: 5px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    .loading-container p {
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo-container">
+      <div class="logo">
+        <img src="logo.png" alt="MSEUFCI Logo">
+      </div>
+      <div class="brand-name">MSEUFCI</div>
+    </div>
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-chart-pie"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="ledger.html" class="nav-item">
+        <i class="fas fa-book"></i>
+        <span>Ledger</span>
+      </a>
+      <a href="schedule.html" class="nav-item">
+        <i class="fas fa-calendar"></i>
+        <span>Schedule</span>
+      </a>
+      <a href="settings.html" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </div>
+    <div class="profile">
+      <div class="profile-pic">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">Alexander Calizar</div>
+        <div class="profile-id">ID A22-1711</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="page-title">Payment Page</div>
+    </div>
+    <div class="payment-container">
+      <div class="payment-title">Select Your Payment Method</div>
+      <div class="payment-options">
+        <button class="payment-btn">
+          <i class="fas fa-money-bill-wave"></i> Physical Payment
+        </button>
+        <button class="payment-btn">
+          <i class="fas fa-credit-card"></i> Payment Gateway
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Redirecting...</p>
+    </div>
+  </div>
+  <script>
+    function showLoadingSpinner() {
+      const overlay = document.getElementById('loading-overlay');
+      overlay.style.display = 'flex';
+    }
+
+    document.querySelectorAll('.payment-btn').forEach(button => {
+      button.addEventListener('click', function () {
+        showLoadingSpinner();
+        setTimeout(() => {
+          window.location.href = 'payment.html';
+        }, 750); 
+      });
+    });
+  </script>
+</body>
+</html>
